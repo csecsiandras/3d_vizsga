@@ -10,10 +10,7 @@ public class PlayerController : MonoBehaviour
     private float playerZ;
     private float distToGround;
 
-    private bool isAttack;
-
-    public Text HPText;
-    private float HealthPoints = 100;
+    private bool isAttack;    
 
     private GameObject enemy;
     private Vector3 AttackRadius = new Vector3(5.0f, 0.0f, 5.0f);
@@ -23,6 +20,9 @@ public class PlayerController : MonoBehaviour
     private int count;
     public Text countText;
 
+    private float HealthPoints = 100;
+    public Text HPText;    
+
     // Use this for initialization
     void Start()
     {
@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
         enemy = GameObject.FindGameObjectWithTag("Enemy");
 
         SetCountText();
+
+        SetHpText();
     }
 
     bool IsGrounded()
@@ -78,7 +80,7 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Destroy(gameObject);
         }
-    }
+    }  
 
     void OnTriggerEnter(Collider other)
     {
@@ -88,10 +90,21 @@ public class PlayerController : MonoBehaviour
             count = count + 1;
             SetCountText();
         }
-    }
+        if (other.gameObject.CompareTag("trap"))
+        {
+            HealthPoints = HealthPoints - 10;
+            SetHpText();
+        }
+    }   
 
     void SetCountText()
     {
         countText.text = "Buff: " + count.ToString() + "/7";
     }
+    void SetHpText()
+    {
+        HPText.text = "HP: " + HealthPoints.ToString() + "/100";
+    }
+
+    
 }
