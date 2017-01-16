@@ -12,21 +12,18 @@ public class PlayerController : MonoBehaviour
 
     private bool isAttack;
 
-    private Rigidbody rb;
-
     public Text HPText;
     private float HealthPoints = 100;
 
     private GameObject enemy;
     private Vector3 AttackRadius = new Vector3(5.0f, 0.0f, 5.0f);
 
+    public Slider HealthBar;
+
     // Use this for initialization
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        rb = GetComponent<Rigidbody>();
-
-        HPText.text = HealthPoints.ToString();
 
         enemy = GameObject.FindGameObjectWithTag("Enemy");
     }
@@ -51,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
         }
 
         /*if (Input.GetMouseButtonDown(1))
@@ -71,7 +68,7 @@ public class PlayerController : MonoBehaviour
     public void Damaged()
     {
         HealthPoints -= 1;
-        HPText.text = Mathf.Round(HealthPoints).ToString();
+        HealthBar.value = HealthPoints;
         if (HealthPoints <= 0)
         {
             GameObject.Destroy(gameObject);
