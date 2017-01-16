@@ -20,12 +20,17 @@ public class PlayerController : MonoBehaviour
 
     public Slider HealthBar;
 
+    private int count;
+    public Text countText;
+
     // Use this for initialization
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
 
         enemy = GameObject.FindGameObjectWithTag("Enemy");
+
+        SetCountText();
     }
 
     bool IsGrounded()
@@ -73,5 +78,20 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Destroy(gameObject);
         }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("buff"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 1;
+            SetCountText();
+        }
+    }
+
+    void SetCountText()
+    {
+        countText.text = "Buff: " + count.ToString() + "/7";
     }
 }
