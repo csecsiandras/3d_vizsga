@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private float HealthPoints = 100;
     public Text HPText;    
+    
 
     // Use this for initialization
     void Start()
@@ -94,6 +95,8 @@ public class PlayerController : MonoBehaviour
         {
             HealthPoints = HealthPoints - 10;
             SetHpText();
+      
+
         }
     }   
 

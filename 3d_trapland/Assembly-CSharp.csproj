@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CameraController.cs" />
+     <Compile Include="Assets\ChangeChildTags.cs" />
      <Compile Include="Assets\Character_Cactus\CameraMouseLook.cs" />
      <Compile Include="Assets\Character_Cactus\PlayerController.cs" />
      <Compile Include="Assets\Elemental Free\Scripts\GE_ELF_Demo.cs" />
