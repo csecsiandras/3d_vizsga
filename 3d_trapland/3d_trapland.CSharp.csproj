@@ -91,6 +91,7 @@
     <Compile Include="Assets\Character_Cactus\CameraMouseLook.cs" />
     <Compile Include="Assets\Character_Cactus\PlayerController.cs" />
     <Compile Include="Assets\Elemental Free\Scripts\GE_ELF_Demo.cs" />
+    <Compile Include="Assets\EnemyController.cs" />
     <Compile Include="Assets\GE Common Assets\GE Orbit Camera\Scripts\GE_OrbitCamera.cs" />
     <Compile Include="Assets\GE Common Assets\GE Orbit Camera\Scripts\GE_OrbitCameraUI.cs" />
     <Compile Include="Assets\GE Common Assets\GE Toggle Full Screen\Scripts\GE_ToggleFullScreenUI.cs" />
