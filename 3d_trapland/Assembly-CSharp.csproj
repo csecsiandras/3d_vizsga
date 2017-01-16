@@ -46,7 +46,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CameraController.cs" />
+     <Compile Include="Assets\Character_Cactus\CameraMouseLook.cs" />
+     <Compile Include="Assets\Character_Cactus\PlayerController.cs" />
      <Compile Include="Assets\Elemental Free\Scripts\GE_ELF_Demo.cs" />
+     <Compile Include="Assets\EnemyController.cs" />
      <Compile Include="Assets\GE Common Assets\GE Orbit Camera\Scripts\GE_OrbitCamera.cs" />
      <Compile Include="Assets\GE Common Assets\GE Orbit Camera\Scripts\GE_OrbitCameraUI.cs" />
      <Compile Include="Assets\GE Common Assets\GE Toggle Full Screen\Scripts\GE_ToggleFullScreenUI.cs" />
@@ -63,6 +66,7 @@
      <Compile Include="Assets\GUI Animator\GUI Animator FREE\Demo (CSharp)\Scripts\GA_FREE_DemoPlaySound.cs" />
      <Compile Include="Assets\GUI Animator\GUI Animator FREE\Demo (CSharp)\Scripts\GA_FREE_OpenOtherScene.cs" />
      <Compile Include="Assets\GUI Animator\GUI Animator FREE\Demo Basic (CSharp)\Scripts\GUIAnimatorFREEDemo.cs" />
+     <Compile Include="Assets\MainMenuController.cs" />
      <Compile Include="Assets\PiXel Cube World Atlantis\Scripts\TextureOffset.cs" />
      <Compile Include="Assets\rpg.cs" />
      <None Include="Assets\Free!Low_Poly_Boxy-Stylized_Trees#0\README.txt" />
@@ -84,11 +88,15 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="GETween">
- <HintPath>F:/Trapland/3d_vizsga/3d_trapland/Assets/GUI Animator/Common/Plugins/GETween.dll</HintPath>
+ <HintPath>F:/Trapland/vizsga_mark/3d_vizsga/3d_trapland/Assets/GUI Animator/Common/Plugins/GETween.dll</HintPath>
  </Reference>
  <Reference Include="GUIAnimatorFREE">
- <HintPath>F:/Trapland/3d_vizsga/3d_trapland/Assets/GUI Animator/GUI Animator FREE/Plugins/GUIAnimatorFREE.dll</HintPath>
+ <HintPath>F:/Trapland/vizsga_mark/3d_vizsga/3d_trapland/Assets/GUI Animator/GUI Animator FREE/Plugins/GUIAnimatorFREE.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{3D43AF33-8622-B184-E8A6-7804A86B8D6A}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

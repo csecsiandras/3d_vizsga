@@ -33,12 +33,12 @@ public class EnemyController : MonoBehaviour
                 ++NextWaypoint;
                 if (NextWaypoint >= Checkpoints.Count)
                 {
-                    NextWaypoint++;
+                    NextWaypoint = 0;
                 }
             }
 
             var player = GameObject.FindGameObjectWithTag("Player");
-            if (Vector3.Distance(transform.position, player.transform.position) <= 4.0f)
+            if (Vector3.Distance(transform.position, player.transform.position) <= 13.0f)
             {
                 NavMeshAgent.SetDestination(player.transform.position);
             }
