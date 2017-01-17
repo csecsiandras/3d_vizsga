@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource footsteps;
     public AudioSource hit;
+    public AudioSource buffpickup;
 
     // Use this for initialization
     void Start()
@@ -138,6 +139,7 @@ public class PlayerController : MonoBehaviour
             speed = speed + 2.0f;
             SetCountText();
             SetHpText();
+            buffpickup.Play();
         }
         if (other.gameObject.CompareTag("trap"))
         {
