@@ -32,7 +32,9 @@ public class PlayerController : MonoBehaviour
 
     private float HealthPoints = 100;
     private float MaxHealthPoints = 100;
-    public Text HPText;    
+    public Text HPText;
+
+    private AudioSource footsteps; 
 
     // Use this for initialization
     void Start()
@@ -47,6 +49,8 @@ public class PlayerController : MonoBehaviour
         SetCountText();
 
         SetHpText();
+
+        footsteps = GetComponent<AudioSource>();
     }
 
     bool IsGrounded()
@@ -74,10 +78,12 @@ public class PlayerController : MonoBehaviour
             if (curPos == lastPos)
             {
                 moving = false;
+                footsteps.mute = true;
             }
             else
             {
                 moving = true;
+                footsteps.mute = false;
             }
             lastPos = curPos;
 
