@@ -43,10 +43,10 @@ public class EnemyController : MonoBehaviour
                 NavMeshAgent.SetDestination(player.transform.position);
             }
 
-            if (Vector3.Distance(transform.position, player.transform.position) <= NavMeshAgent.stoppingDistance)
+            /*if (Vector3.Distance(transform.position, player.transform.position) <= NavMeshAgent.stoppingDistance)
             {
                 player.GetComponent<PlayerController>().Damaged();
-            }
+            }*/
         }
         else
         {

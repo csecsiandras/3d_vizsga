@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class PlayerController : MonoBehaviour
     private float playerX;
     private float playerZ;
     private float distToGround;
+    private Vector3 curPos;
+    private Vector3 lastPos;
+    bool moving = false;
 
     private bool isAttack;    
 
@@ -17,7 +21,7 @@ public class PlayerController : MonoBehaviour
 
     public Slider HealthBar;
 
-    private int count;
+    private int count = 0;
     public Text countText;
 
     private float HealthPoints = 100;
@@ -41,6 +45,20 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
 
+    bool IsMoving()
+    {
+        curPos = transform.position;
+        if (curPos == lastPos)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+        lastPos = curPos;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -50,6 +68,8 @@ public class PlayerController : MonoBehaviour
         playerZ *= Time.deltaTime;
 
         transform.Translate(playerZ, 0, playerX);
+
+        moving = IsMoving();
 
         if (Input.GetKeyDown("escape"))
             Cursor.lockState = CursorLockMode.None;
@@ -73,16 +93,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Damaged()
-    {
-        HealthPoints -= 1;
-        HealthBar.value = HealthPoints;
-        if (HealthPoints <= 0)
-        {
-            GameObject.Destroy(gameObject);
-        }
-    }  
-
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("buff"))
@@ -91,12 +101,28 @@ public class PlayerController : MonoBehaviour
             count = count + 1;
             SetCountText();
         }
-        if (other.gameObject.CompareTag("trap"))
+        if (HealthPoints > 0)
         {
-            HealthPoints = HealthPoints - 10;
-            SetHpText();
-      
-
+            if (other.gameObject.CompareTag("trap"))
+            {
+                HealthPoints = HealthPoints - 10;
+                SetHpText();
+            }
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                if (count < 7)
+                {
+                    HealthPoints = HealthPoints - 10;
+                }
+                else
+                {
+                    HealthPoints = HealthPoints - 2;
+                }
+            }
+        }
+        else
+        {
+            SceneManager.LoadScene("GameOver");
         }
     }   
 
