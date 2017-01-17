@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 curPos;
     private Vector3 lastPos;
     private bool moving = false;
-    private Animator Animator;
+    public Animator Animator;
 
     private bool isAttack;
     private GameObject spike;
@@ -41,16 +41,17 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
         Cursor.lockState = CursorLockMode.Locked;
 
         enemy = GameObject.FindGameObjectWithTag("Enemy");
         Animator = GetComponent<Animator>();
         spike = GameObject.FindGameObjectWithTag("spike");
         prefab = Resources.Load("Spike") as GameObject;
-
         SetCountText();
-
         SetHpText();
+        
+        
     }
 
     bool IsGrounded()
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
     {
         //Debug.Log("Player HP: " + HealthPoints);
         attackCounter++;
+        
         if (HealthPoints > 0)
         {
             playerX = Input.GetAxis("Vertical") * speed;
@@ -73,16 +75,16 @@ public class PlayerController : MonoBehaviour
             playerZ *= Time.deltaTime;
 
             transform.Translate(playerZ, 0, playerX);
-
+            
             curPos = transform.position;
             if (curPos == lastPos)
             {
-                moving = false;
+                Animator.SetBool("moving", false);
                 footsteps.mute = true;
             }
             else
             {
-                moving = true;
+                Animator.SetBool("moving", true);
                 footsteps.mute = false;
             }
             lastPos = curPos;
@@ -110,11 +112,17 @@ public class PlayerController : MonoBehaviour
             enemyDistance = Vector3.Distance(transform.position, enemy.transform.position);
             if (Input.GetMouseButtonDown(0))
             {
+                Animator.SetBool("attack", true);
                 if (enemyDistance < AttackRadius)
                 {
                     enemy.GetComponent<EnemyController>().Damaged();
+                    
                     Debug.Log("Enemy damaged");
                 }
+            }
+            else
+            {
+                Animator.SetBool("attack", false);
             }
             if (enemyDistance < AttackRadius && (attackCounter % attackTime == 0))
             {
@@ -146,7 +154,10 @@ public class PlayerController : MonoBehaviour
             HealthPoints = HealthPoints - 10;
             hit.Play();
             SetHpText();
+            Animator.SetBool("gethit", true);
+            
         }
+       
         if (other.gameObject.CompareTag("Enemy"))
         {
             {
@@ -180,4 +191,9 @@ public class PlayerController : MonoBehaviour
             HealthPoints = HealthPoints - 2;
         }
     }*/
+
+    void LateUpdate()
+    {
+        Animator.SetBool("gethit", false);
+    }
 }
