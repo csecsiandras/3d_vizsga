@@ -53,7 +53,7 @@ public class EnemyController : MonoBehaviour
 
     public void Damaged()
     {
-        HealthPoints = HealthPoints - 5;
+        HealthPoints = HealthPoints - 10;
         Debug.Log(HealthPoints);
         //StartKillTime = Time.time;
     }
@@ -62,7 +62,8 @@ public class EnemyController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("spike"))
         {
-            Damaged();
+            //Debug.Log("SPIKE!");
+            HealthPoints = HealthPoints - 20;
         }
     }
 

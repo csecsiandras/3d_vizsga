@@ -15,7 +15,9 @@ public class PlayerController : MonoBehaviour
     private bool moving = false;
     private Animator Animator;
 
-    private bool isAttack;    
+    private bool isAttack;
+    private GameObject spike;
+    private GameObject prefab;
 
     private GameObject enemy;
     private float AttackRadius = 10;
@@ -23,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public Slider HealthBar;
 
-    private int count = 0;
+    public int count = 0;
     public Text countText;
     private int attackCounter = 0;
     public int attackTime = 10;
@@ -31,7 +33,6 @@ public class PlayerController : MonoBehaviour
     private float HealthPoints = 100;
     private float MaxHealthPoints = 100;
     public Text HPText;    
-    
 
     // Use this for initialization
     void Start()
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
         enemy = GameObject.FindGameObjectWithTag("Enemy");
         Animator = GetComponent<Animator>();
+        spike = GameObject.FindGameObjectWithTag("spike");
+        prefab = Resources.Load("Spike") as GameObject;
 
         SetCountText();
 
@@ -51,10 +54,12 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
 
+    public int getCount() { return count; }
+
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Player HP: " + HealthPoints);
+        //Debug.Log("Player HP: " + HealthPoints);
         attackCounter++;
         if (HealthPoints > 0)
         {
@@ -84,11 +89,18 @@ public class PlayerController : MonoBehaviour
                 GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
             }
 
+            //spike attack
             if (Input.GetMouseButtonDown(1))
             {
-                Animator.SetTrigger("Spike");
+                spike = Instantiate(prefab) as GameObject;
+                spike.transform.position = transform.position + new Vector3(0,4.5f,0) + Camera.main.transform.forward * 2;
+                spike.transform.rotation = transform.rotation;
+                spike.transform.Rotate(Vector3.right * 90);
+                Rigidbody rb = spike.GetComponent<Rigidbody>();
+                rb.velocity = Camera.main.transform.forward * 40;
             }
 
+            //melee attack
             enemyDistance = Vector3.Distance(transform.position, enemy.transform.position);
             if (Input.GetMouseButtonDown(0))
             {
