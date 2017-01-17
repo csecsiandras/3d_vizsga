@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
     private float distToGround;
     private Vector3 curPos;
     private Vector3 lastPos;
-    bool moving = false;
+    private bool moving = false;
+    private Animator Animator;
 
     private bool isAttack;    
 
@@ -24,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     private int count = 0;
     public Text countText;
+    private int attackCounter = 0;
+    public int attackTime = 10;
 
     private float HealthPoints = 100;
     public Text HPText;    
@@ -35,6 +38,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         enemy = GameObject.FindGameObjectWithTag("Enemy");
+        Animator = GetComponent<Animator>();
 
         SetCountText();
 
@@ -49,45 +53,59 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerX = Input.GetAxis("Vertical") * speed;
-        playerZ = Input.GetAxis("Horizontal") * speed;
-        playerX *= Time.deltaTime;
-        playerZ *= Time.deltaTime;
-
-        transform.Translate(playerZ, 0, playerX);
-
-        curPos = transform.position;
-        if (curPos == lastPos)
+        Debug.Log("Player HP: " + HealthPoints);
+        attackCounter++;
+        if (HealthPoints > 0)
         {
-            moving = false;
+            playerX = Input.GetAxis("Vertical") * speed;
+            playerZ = Input.GetAxis("Horizontal") * speed;
+            playerX *= Time.deltaTime;
+            playerZ *= Time.deltaTime;
+
+            transform.Translate(playerZ, 0, playerX);
+
+            curPos = transform.position;
+            if (curPos == lastPos)
+            {
+                moving = false;
+            }
+            else
+            {
+                moving = true;
+            }
+            lastPos = curPos;
+
+            if (Input.GetKeyDown("escape"))
+                Cursor.lockState = CursorLockMode.None;
+
+            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+            {
+                GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Animator.SetTrigger("Spike");
+            }
+
+            enemyDistance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (enemyDistance < AttackRadius)
+                {
+                    enemy.GetComponent<EnemyController>().Damaged();
+                    Debug.Log("Enemy damaged");
+                }
+            }
+            if (enemyDistance < AttackRadius && (attackCounter % attackTime == 0))
+            {
+                Damaged();
+            }
         }
         else
         {
-            moving = true;
-        }
-        lastPos = curPos;
-
-        if (Input.GetKeyDown("escape"))
-            Cursor.lockState = CursorLockMode.None;
-
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-        {
-            GetComponent<Rigidbody>().AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-        }
-
-        /*if (Input.GetMouseButtonDown(1))
-        {
-            
-        }*/
-
-        enemyDistance = Vector3.Distance(transform.position, enemy.transform.position);
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (enemyDistance < AttackRadius)
-            {
-                enemy.GetComponent<EnemyController>().Damaged();
-                Debug.Log("Enemy damaged");
-            }
+            Animator.SetTrigger("Die");
+            //SceneManager.LoadScene("GameOver");
         }
     }
 
@@ -99,28 +117,10 @@ public class PlayerController : MonoBehaviour
             count = count + 1;
             SetCountText();
         }
-        if (HealthPoints > 0)
+        if (other.gameObject.CompareTag("trap"))
         {
-            if (other.gameObject.CompareTag("trap"))
-            {
-                HealthPoints = HealthPoints - 10;
-                SetHpText();
-            }
-            if (other.gameObject.CompareTag("Enemy"))
-            {
-                if (count < 7)
-                {
-                    HealthPoints = HealthPoints - 10;
-                }
-                else
-                {
-                    HealthPoints = HealthPoints - 2;
-                }
-            }
-        }
-        else
-        {
-            SceneManager.LoadScene("GameOver");
+            HealthPoints = HealthPoints - 10;
+            SetHpText();
         }
     }   
 
@@ -130,8 +130,21 @@ public class PlayerController : MonoBehaviour
     }
     void SetHpText()
     {
-        HPText.text = "HP: " + HealthPoints.ToString() + "/100";
+        if (HealthPoints > 0)
+            HPText.text = "HP: " + HealthPoints.ToString() + "/100";
+        else
+            HPText.text = "HP: 0/100";
     }
 
-    
+    public void Damaged()
+    {
+        if (count < 7)
+        {
+            HealthPoints = HealthPoints - 20;
+        }
+        else
+        {
+            HealthPoints = HealthPoints - 2;
+        }
+    }
 }

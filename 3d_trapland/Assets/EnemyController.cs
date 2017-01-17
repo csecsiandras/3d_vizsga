@@ -8,7 +8,6 @@ public class EnemyController : MonoBehaviour
     private Animator Animator;
     private float StartKillTime;
     private int NextWaypoint = 0;
-    private bool stop = false;
 
     public List<Transform> Checkpoints;
 
@@ -27,7 +26,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!stop)
+        if (HealthPoints > 0)
         {
             NavMeshAgent.SetDestination(Checkpoints[NextWaypoint].position);
 
@@ -46,18 +45,25 @@ public class EnemyController : MonoBehaviour
                 NavMeshAgent.SetDestination(player.transform.position);
             }
         }
+        else
+        {
+            Animator.SetTrigger("Kill");
+        }
     }
 
     public void Damaged()
     {
         HealthPoints = HealthPoints - 5;
         Debug.Log(HealthPoints);
-        if (HealthPoints <= 0)
-        {
-            Animator.SetTrigger("Kill");
-            stop = true;
-        }
         //StartKillTime = Time.time;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("spike"))
+        {
+            Damaged();
+        }
     }
 
     public void StartSinking()
