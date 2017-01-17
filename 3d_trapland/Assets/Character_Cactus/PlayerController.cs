@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
     private bool isAttack;    
 
     private GameObject enemy;
-    private Vector3 AttackRadius = new Vector3(5.0f, 0.0f, 5.0f);
+    private float AttackRadius = 10;
+    private float enemyDistance;
 
     public Slider HealthBar;
 
@@ -45,20 +46,6 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
     }
 
-    bool IsMoving()
-    {
-        curPos = transform.position;
-        if (curPos == lastPos)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-        lastPos = curPos;
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -69,7 +56,16 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(playerZ, 0, playerX);
 
-        moving = IsMoving();
+        curPos = transform.position;
+        if (curPos == lastPos)
+        {
+            moving = false;
+        }
+        else
+        {
+            moving = true;
+        }
+        lastPos = curPos;
 
         if (Input.GetKeyDown("escape"))
             Cursor.lockState = CursorLockMode.None;
@@ -83,9 +79,11 @@ public class PlayerController : MonoBehaviour
         {
             
         }*/
+
+        enemyDistance = Vector3.Distance(transform.position, enemy.transform.position);
         if (Input.GetMouseButtonDown(0))
         {
-            if ((Mathf.Abs(enemy.transform.position.x - transform.position.x)) < AttackRadius.x && (Mathf.Abs(enemy.transform.position.y - transform.position.y)) < AttackRadius.y)
+            if (enemyDistance < AttackRadius)
             {
                 enemy.GetComponent<EnemyController>().Damaged();
                 Debug.Log("Enemy damaged");
