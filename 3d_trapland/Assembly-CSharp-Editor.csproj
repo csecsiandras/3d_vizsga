@@ -59,7 +59,7 @@
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
  <Reference Include="Assembly-UnityScript">
- <HintPath>F:/Trapland/vizsga_mark/3d_vizsga/3d_vizsga/3d_trapland/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
+ <HintPath>F:/Trapland/Új mappa/3d_vizsga/3d_trapland/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
@@ -86,10 +86,10 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
  </Reference>
  <Reference Include="GETween">
- <HintPath>F:/Trapland/vizsga_mark/3d_vizsga/3d_vizsga/3d_trapland/Assets/GUI Animator/Common/Plugins/GETween.dll</HintPath>
+ <HintPath>F:/Trapland/Új mappa/3d_vizsga/3d_trapland/Assets/GUI Animator/Common/Plugins/GETween.dll</HintPath>
  </Reference>
  <Reference Include="GUIAnimatorFREE">
- <HintPath>F:/Trapland/vizsga_mark/3d_vizsga/3d_vizsga/3d_trapland/Assets/GUI Animator/GUI Animator FREE/Plugins/GUIAnimatorFREE.dll</HintPath>
+ <HintPath>F:/Trapland/Új mappa/3d_vizsga/3d_trapland/Assets/GUI Animator/GUI Animator FREE/Plugins/GUIAnimatorFREE.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>

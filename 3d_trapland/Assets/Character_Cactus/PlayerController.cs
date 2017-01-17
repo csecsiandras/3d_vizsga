@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 10.0f;
+    public float speed = 6.0f;
     public float jumpForce = 8.0f;
     private float playerX;
     private float playerZ;
@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public int attackTime = 10;
 
     private float HealthPoints = 100;
+    private float MaxHealthPoints = 100;
     public Text HPText;    
     
 
@@ -99,13 +100,13 @@ public class PlayerController : MonoBehaviour
             }
             if (enemyDistance < AttackRadius && (attackCounter % attackTime == 0))
             {
-                Damaged();
+               // Damaged();
             }
         }
         else
         {
             Animator.SetTrigger("Die");
-            //SceneManager.LoadScene("GameOver");
+            SceneManager.LoadScene("GameOver");
         }
     }
 
@@ -115,12 +116,23 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             count = count + 1;
+            MaxHealthPoints = MaxHealthPoints + 50;
+            HealthPoints = MaxHealthPoints;
+            speed = speed + 2.0f;
             SetCountText();
+            SetHpText();
         }
         if (other.gameObject.CompareTag("trap"))
         {
             HealthPoints = HealthPoints - 10;
             SetHpText();
+        }
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            {
+                HealthPoints = HealthPoints - 8 * (7 - count);
+                SetHpText();
+            }           
         }
     }   
 
@@ -131,12 +143,12 @@ public class PlayerController : MonoBehaviour
     void SetHpText()
     {
         if (HealthPoints > 0)
-            HPText.text = "HP: " + HealthPoints.ToString() + "/100";
+            HPText.text = "HP: " + HealthPoints.ToString() + "/" + MaxHealthPoints.ToString();
         else
             HPText.text = "HP: 0/100";
     }
 
-    public void Damaged()
+   /* public void Damaged()
     {
         if (count < 7)
         {
@@ -146,5 +158,5 @@ public class PlayerController : MonoBehaviour
         {
             HealthPoints = HealthPoints - 2;
         }
-    }
+    }*/
 }

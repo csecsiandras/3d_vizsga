@@ -40,7 +40,7 @@ public class EnemyController : MonoBehaviour
             }
 
             var player = GameObject.FindGameObjectWithTag("Player");
-            if (Vector3.Distance(transform.position, player.transform.position) <= 13.0f)
+            if (Vector3.Distance(transform.position, player.transform.position) <= 20.0f)
             {
                 NavMeshAgent.SetDestination(player.transform.position);
             }
