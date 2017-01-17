@@ -34,7 +34,8 @@ public class PlayerController : MonoBehaviour
     private float MaxHealthPoints = 100;
     public Text HPText;
 
-    private AudioSource footsteps; 
+    public AudioSource footsteps;
+    public AudioSource hit;
 
     // Use this for initialization
     void Start()
@@ -49,8 +50,6 @@ public class PlayerController : MonoBehaviour
         SetCountText();
 
         SetHpText();
-
-        footsteps = GetComponent<AudioSource>();
     }
 
     bool IsGrounded()
@@ -143,12 +142,14 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("trap"))
         {
             HealthPoints = HealthPoints - 10;
+            hit.Play();
             SetHpText();
         }
         if (other.gameObject.CompareTag("Enemy"))
         {
             {
                 HealthPoints = HealthPoints - 8 * (7 - count);
+                hit.Play();
                 SetHpText();
             }           
         }
