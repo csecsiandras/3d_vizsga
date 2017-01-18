@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource footsteps;
     public AudioSource hit;
     public AudioSource buffpickup;
+    public AudioSource punch;
 
     // Use this for initialization
     void Start()
@@ -112,6 +113,7 @@ public class PlayerController : MonoBehaviour
             enemyDistance = Vector3.Distance(transform.position, enemy.transform.position);
             if (Input.GetMouseButtonDown(0))
             {
+                punch.Play();
                 Animator.SetBool("attack", true);
                 if (enemyDistance < AttackRadius)
                 {

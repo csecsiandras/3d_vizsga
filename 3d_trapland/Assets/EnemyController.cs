@@ -15,6 +15,8 @@ public class EnemyController : MonoBehaviour
 
     private float HealthPoints = 100;
 
+    public AudioSource wingFlap;
+
     // Use this for initialization
     void Start()
     {
@@ -48,6 +50,7 @@ public class EnemyController : MonoBehaviour
         else
         {
             Animator.SetTrigger("Kill");
+            wingFlap.mute = true;
         }
     }
 
