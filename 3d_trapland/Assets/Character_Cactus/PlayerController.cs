@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource buffpickup;
     public AudioSource punch;
 
+
     // Use this for initialization
     void Start()
     {
@@ -113,8 +114,8 @@ public class PlayerController : MonoBehaviour
             enemyDistance = Vector3.Distance(transform.position, enemy.transform.position);
             if (Input.GetMouseButtonDown(0))
             {
-                punch.Play();
                 Animator.SetBool("attack", true);
+                punch.PlayDelayed(0.35f);
                 if (enemyDistance < AttackRadius)
                 {
                     enemy.GetComponent<EnemyController>().Damaged();
@@ -136,6 +137,7 @@ public class PlayerController : MonoBehaviour
             Animator.SetTrigger("Die");
             SceneManager.LoadScene("GameOver");
         }
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -151,7 +153,7 @@ public class PlayerController : MonoBehaviour
             SetHpText();
             buffpickup.Play();
         }
-        if (other.gameObject.CompareTag("trap"))
+        else if (other.gameObject.CompareTag("trap"))
         {
             HealthPoints = HealthPoints - 10;
             hit.Play();
@@ -159,14 +161,20 @@ public class PlayerController : MonoBehaviour
             Animator.SetBool("gethit", true);
             
         }
-       
-        if (other.gameObject.CompareTag("Enemy"))
+        else if (other.gameObject.CompareTag("Enemy"))
         {
             {
-                HealthPoints = HealthPoints - 8 * (7 - count);
-                hit.Play();
+                if (enemy.GetComponent<EnemyController>().HealthPoints > 0)
+                {
+                    HealthPoints = HealthPoints - 8 * (8 - count);
+                    hit.Play();
+                }
                 SetHpText();
             }           
+        }
+        else if (other.gameObject.CompareTag("water"))
+        {
+            SceneManager.LoadScene("GameOver");
         }
     }   
 

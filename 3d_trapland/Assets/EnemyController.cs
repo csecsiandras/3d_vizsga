@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
@@ -13,10 +14,13 @@ public class EnemyController : MonoBehaviour
 
     private GameObject player;
 
-    private float HealthPoints = 100;
+    public float HealthPoints = 400;
 
     public AudioSource wingFlap;
+    public AudioSource death;
 
+    bool isDead = false;
+    int timer = 0;
     // Use this for initialization
     void Start()
     {
@@ -49,14 +53,27 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
+            death.mute = false;
+            death.Play();
             Animator.SetTrigger("Kill");
             wingFlap.mute = true;
+            isDead = true;
+            
+        }
+
+        if (isDead)
+        {
+            timer++;
+            if (timer > 120)
+            {
+                SceneManager.LoadScene("victory");
+            }
         }
     }
 
     public void Damaged()
     {
-        HealthPoints = HealthPoints - 10;
+        HealthPoints = HealthPoints - 4;
         Debug.Log(HealthPoints);
         //StartKillTime = Time.time;
     }
@@ -66,7 +83,7 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.CompareTag("spike"))
         {
             //Debug.Log("SPIKE!");
-            HealthPoints = HealthPoints - 20;
+            HealthPoints = HealthPoints - 6;
         }
     }
 
